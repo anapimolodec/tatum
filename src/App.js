@@ -1,12 +1,11 @@
-import { useAuthStore } from "./store/useStore";
+import { useStore } from "./store/useStore";
 import LoginCard from "./components/LoginCard";
-import { TaskList } from "./components/TaskList";
 import { Button } from "@radix-ui/themes";
 
 export default function App() {
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-  const user = useAuthStore((state) => state.user);
-  const logout = useAuthStore((state) => state.logout);
+  const isAuthenticated = useStore((state) => state.isAuthenticated);
+  const user = useStore((state) => state.user);
+  const logout = useStore((state) => state.logout);
 
   return (
     <>
@@ -23,7 +22,6 @@ export default function App() {
             </div>
             <Button onClick={logout}>Logout</Button>
           </header>
-          <TaskList />
         </>
       )}
     </>

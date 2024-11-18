@@ -1,23 +1,53 @@
 import { create } from "zustand";
 
-export const useAuthStore = create((set) => ({
+export const useStore = create((set) => ({
   user: null,
   isAuthenticated: false,
-  login: async (email) => {
-    try {
-      const response = await fetch("/data/user_list.jsons.");
-      const data = await response.json();
-      const user = data.users.find((u) => u.userEmail === email);
+  error: null,
+  isLoading: false,
 
-      if (user) {
-        set({ user, isAuthenticated: true });
+  login: async (email, password) => {
+    set({ isLoading: true, error: null });
+
+    try {
+      const response = await fetch("/data/user_list.json");
+      const data = await response.json();
+      const user = data.find((u) => u.userEmail === email);
+
+      if (user && password) {
+        const userSession = {
+          userName: user.userName,
+          userEmail: user.userEmail,
+          userRole: user.userRole,
+          lastLoggedInAt: new Date().toISOString(),
+        };
+
+        set({
+          user: userSession,
+          isAuthenticated: true,
+          error: null,
+        });
+
         return true;
+      } else {
+        set({ error: "Invalid credentials" });
+        return false;
       }
-      return false;
     } catch (error) {
       console.error("Login error:", error);
+      set({ error: "Login failed. Please try again." });
       return false;
+    } finally {
+      set({ isLoading: false });
     }
   },
-  logout: () => set({ user: null, isAuthenticated: false }),
+
+  logout: () =>
+    set({
+      user: null,
+      isAuthenticated: false,
+      error: null,
+    }),
+
+  clearError: () => set({ error: null }),
 }));
