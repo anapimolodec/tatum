@@ -8,7 +8,9 @@ const SearchBar = ({ handleSearch, searchTerm, setSearchField, options }) => {
         <Select.Trigger />
         <Select.Content color="teal">
           {options.map((option) => (
-            <Select.Item value={option.id}>{option.name}</Select.Item>
+            <Select.Item key={option.id} value={option.id}>
+              {option.name}
+            </Select.Item>
           ))}
         </Select.Content>
       </Select.Root>
