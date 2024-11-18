@@ -10,7 +10,20 @@ export const strings = {
     type_email: "이메일 주소를 입력해 주세요.",
     password: "비밀번호",
     type_password: "비밀번호를 입력해 주세요.",
+    error: "Invalid credentials",
   },
+  user_list: "User List",
+  users: {
+    user_name: "User Name",
+    user_phone: "User Phone",
+    user_email: "User Email",
+    user_roles: "사용자 권한",
+    user_role: "User Role",
+    created_at: "Created At",
+    last_logged_in: "Last logged in",
+  },
+  search: "Search",
+  selected: "Selected",
 };
 
 export const getNestedString = (path) => {

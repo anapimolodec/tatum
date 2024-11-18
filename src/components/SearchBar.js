@@ -1,29 +1,25 @@
-import { Table, TextField, Select } from "@radix-ui/themes";
+import { TextField, Select } from "@radix-ui/themes";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
-import { capitalize } from "../constants/functions";
 
-const SearchBar = ({ options, setSearchTerm, searchTerm }) => {
+const SearchBar = ({ handleSearch, searchTerm, setSearchField, options }) => {
   return (
-    <div className="flex justify-between items-center mb-6">
-      <div className="flex items-center gap-4">
-        <Select.Root defaultValue={options[0]}>
-          <Select.Trigger className="w-[140px]" />
-          <Select.Content>
-            <Select.Group>
-              {options.map((option) => (
-                <Select.Item value={option}>{capitalize(option)}</Select.Item>
-              ))}
-            </Select.Group>
-          </Select.Content>
-        </Select.Root>
+    <div className="flex gap-1">
+      <Select.Root defaultValue={options[0].id} onValueChange={setSearchField}>
+        <Select.Trigger />
+        <Select.Content color="teal">
+          {options.map((option) => (
+            <Select.Item value={option.id}>{option.name}</Select.Item>
+          ))}
+        </Select.Content>
+      </Select.Root>
 
+      <div className="w-72">
         <TextField.Root
-          placeholder="Search"
+          placeholder="Search..."
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="pl-8"
+          onChange={handleSearch}
         >
-          <TextField.Slot>
+          <TextField.Slot side="right">
             <MagnifyingGlassIcon height="16" width="16" />
           </TextField.Slot>
         </TextField.Root>
