@@ -137,7 +137,13 @@ const LoginForm = () => {
               </div>
             </div>
 
-            {error && <p className="text-xs text-red-500 mt-1">{error}</p>}
+            {error ? (
+              <p className="text-xs text-red-500 mt-1">{error}</p>
+            ) : (
+              isLoading && (
+                <p className="text-xs text-gray-500 mt-1">{strings.loading}</p>
+              )
+            )}
             <div className="flex justify-end space-x-3 pt-6">
               <Button
                 variant="outline"
@@ -151,7 +157,7 @@ const LoginForm = () => {
                 type="submit"
                 variant="solid"
                 color="teal"
-                disabled={!isValid}
+                disabled={!isValid || isLoading}
                 className={!isValid ? "opacity-50 cursor-not-allowed" : ""}
               >
                 {isValid && <CheckIcon />}
