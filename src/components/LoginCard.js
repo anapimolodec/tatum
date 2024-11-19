@@ -19,35 +19,17 @@ const LoginForm = () => {
   const [isValid, setIsValid] = useState(false);
   const { login, loginError, isLoading, clearError } = useStore();
 
-  const validateEmail = (email) => {
-    if (!email) {
-      return getNestedString("auth.email_required");
-    }
-    return "";
-  };
-
-  const validatePassword = (password) => {
-    if (!password) {
-      return getNestedString("auth.password_required");
-    }
-    return "";
-  };
-
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    if (loginError) {
+    if (loginError || error) {
       clearError();
+      setError("");
     }
 
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
-
-    const validationError =
-      name === "email" ? validateEmail(value) : validatePassword(value);
-
-    setError(validationError);
   };
 
   const handleCancelInput = () => {
@@ -62,8 +44,8 @@ const LoginForm = () => {
 
   useEffect(() => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const isEmailValid = formData.email && emailRegex.test(formData.email);
-    const isPasswordValid = formData.password;
+    const isEmailValid = !!formData.email && emailRegex.test(formData.email);
+    const isPasswordValid = !!formData.password;
     setIsValid(isEmailValid && isPasswordValid && !error);
   }, [formData, error]);
 
@@ -73,6 +55,7 @@ const LoginForm = () => {
       const success = await login(formData.email, formData.password);
       if (success) {
         console.log("Login successful!");
+        //TODO: add message?
       } else {
         const currentError = useStore.getState().error;
         setError(currentError);
