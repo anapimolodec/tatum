@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { Table, CheckboxGroup } from "@radix-ui/themes";
-import { formatDate } from "../constants/functions";
 import { useStore } from "../store/useStore";
 import { useQuery } from "@tanstack/react-query";
 import { ROLES } from "../constants/types";
 import SearchBar from "../components/SearchBar";
 import { getNestedString, strings } from "../constants/strings";
+import SelectedCount from "../components/SelectedCount";
+import Filters from "../components/Filters";
+import { handleOptionChange } from "../constants/functions";
+import UserTable from "../components/UserTable";
 
 const fetchUsers = async () => {
   const response = await fetch("/data/user_list.json");
@@ -15,11 +17,11 @@ const fetchUsers = async () => {
   return response.json();
 };
 
-const ALL_ROLES = "ALL";
+const ALL = "ALL";
 
 const UsersPage = () => {
   const { user } = useStore();
-  const [selectedRoles, setSelectedRoles] = useState([ALL_ROLES]);
+  const [selectedRoles, setSelectedRoles] = useState([ALL]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchField, setSearchField] = useState("userEmail");
 
@@ -34,27 +36,7 @@ const UsersPage = () => {
   });
 
   const uniqueRoles = [...new Set(users.map((user) => user.userRole))];
-  const availableRoles = [ALL_ROLES, ...uniqueRoles];
-
-  const handleRoleChange = (newValues) => {
-    const clickedRole =
-      newValues.length > selectedRoles.length
-        ? newValues.find((role) => !selectedRoles.includes(role))
-        : selectedRoles.find((role) => !newValues.includes(role));
-
-    if (clickedRole === ALL_ROLES) {
-      if (selectedRoles.includes(ALL_ROLES)) {
-        return;
-      } else {
-        setSelectedRoles([ALL_ROLES, ...uniqueRoles]);
-        return;
-      }
-    }
-
-    if (clickedRole !== ALL_ROLES) {
-      setSelectedRoles([clickedRole]);
-    }
-  };
+  const availableRoles = [ALL, ...uniqueRoles];
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
@@ -88,7 +70,7 @@ const UsersPage = () => {
         return [];
     }
 
-    if (!selectedRoles.includes(ALL_ROLES)) {
+    if (!selectedRoles.includes(ALL)) {
       filteredUsers = filteredUsers.filter((u) =>
         selectedRoles.includes(u.userRole)
       );
@@ -119,79 +101,24 @@ const UsersPage = () => {
           options={options}
         />
         <div className="flex flex-col">
-          <div className="flex items-center gap-3">
-            <span className="text-sm text-teal-700 font-bold">
-              {strings.selected}
-            </span>
-            <span className="inline-flex items-center justify-center w-5 h-5 p-3 border border-solid border-teal-700 text-xs text-teal-700 rounded-full font-bold">
-              {visibleUsers.length}
-            </span>
-          </div>
-          <hr className="h-1 my-3 border-black" />
-          <CheckboxGroup.Root
-            className="flex flex-wrap gap-4"
-            value={selectedRoles}
-            onValueChange={handleRoleChange}
-            color="teal"
-          >
-            <div className="flex gap-10">
-              <h4 className="text-sm font-bold text-gray-700">
-                {getNestedString("users.user_roles")}
-              </h4>
-              {availableRoles.map((role) => (
-                <div key={role} className="flex items-center gap-2">
-                  <CheckboxGroup.Item
-                    value={role}
-                    className="w-[16px] h-[16px] rounded border border-gray-300 bg-white data-[state=checked]:bg-teal-600 data-[state=checked]:border-teal-600"
-                    id={role}
-                  />
-                  <label className="text-sm text-gray-700" htmlFor={role}>
-                    {role}
-                  </label>
-                </div>
-              ))}
-            </div>
-          </CheckboxGroup.Root>
+          <SelectedCount count={visibleUsers.length} />
+          <hr className="h-1 my-4 border-black" />
+          <Filters
+            title={getNestedString("users.user_roles")}
+            items={availableRoles}
+            selectedItems={selectedRoles}
+            onItemChange={(values) =>
+              handleOptionChange(
+                values,
+                selectedRoles,
+                setSelectedRoles,
+                uniqueRoles
+              )
+            }
+          />
         </div>
       </div>
-
-      <Table.Root variant="ghost" layout="fixed">
-        <Table.Header>
-          <Table.Row>
-            <Table.ColumnHeaderCell>
-              {getNestedString("users.user_name")}
-            </Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>
-              {getNestedString("users.user_email")}
-            </Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>
-              {getNestedString("users.user_role")}
-            </Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>
-              {getNestedString("users.user_phone")}
-            </Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>
-              {getNestedString("users.created_at")}
-            </Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>
-              {getNestedString("users.last_logged_in")}
-            </Table.ColumnHeaderCell>
-          </Table.Row>
-        </Table.Header>
-
-        <Table.Body>
-          {visibleUsers.map((user, index) => (
-            <Table.Row key={index}>
-              <Table.Cell>{user.userName}</Table.Cell>
-              <Table.Cell>{user.userEmail}</Table.Cell>
-              <Table.Cell>{user.userRole}</Table.Cell>
-              <Table.Cell>{user.userPhone}</Table.Cell>
-              <Table.Cell>{formatDate(user.createdAt)}</Table.Cell>
-              <Table.Cell>{formatDate(user.lastLoggedInAt)}</Table.Cell>
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table.Root>
+      <UserTable visibleUsers={visibleUsers} />
     </div>
   );
 };

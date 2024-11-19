@@ -4,14 +4,8 @@ import { useStore } from "../store/useStore";
 import { navStore } from "../store/navStore";
 import Header from "../components/Header";
 import UsersPage from "./UsersPage";
+import TasksPage from "./TasksPage";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
-const TasksPage = () => (
-  <div>
-    <h1 className="text-2xl font-bold mb-4">Tasks</h1>
-    {/* Your tasks page content */}
-  </div>
-);
 
 const Dashboard = () => {
   const user = useStore((state) => state.user);

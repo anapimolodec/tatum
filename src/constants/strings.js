@@ -22,6 +22,17 @@ export const strings = {
     created_at: "Created At",
     last_logged_in: "Last logged in",
   },
+  task_list: "Task List",
+  tasks: {
+    task_name: "Task Name",
+    task_type: "Task Type",
+    created_at: "Created At",
+    due_date: "Due Date",
+    reporter: "Reporter",
+    description: "Description",
+    assignee: "담당자 (Assignee)",
+    status: "상태 (Status)",
+  },
   search: "Search",
   selected: "Selected",
 };
