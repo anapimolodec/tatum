@@ -6,6 +6,10 @@ import { useStore } from "../store/useStore";
 const Header = ({ user, currentPage }) => {
   const logout = useStore((state) => state.logout);
   //TODO: add logout function
+
+  const handleLogout = () => {
+    logout();
+  };
   return (
     <nav className="flex justify-between items-center">
       <h1 className="text-2xl font-bold mb-4">
@@ -15,7 +19,7 @@ const Header = ({ user, currentPage }) => {
         <span>{user.userName}</span>
         <span>{user.userRole}</span>
 
-        <IconButton variant="ghost">
+        <IconButton variant="ghost" onClick={handleLogout}>
           <ChevronDownIcon />
         </IconButton>
         <PersonIcon className="ml-4" />

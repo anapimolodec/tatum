@@ -36,14 +36,23 @@ const UsersPage = () => {
   const uniqueRoles = [...new Set(users.map((user) => user.userRole))];
   const availableRoles = [ALL_ROLES, ...uniqueRoles];
 
-  const handleRoleChange = (values) => {
-    if (values.length === 0) return;
-    const lastSelected = values[values.length - 1];
+  const handleRoleChange = (newValues) => {
+    const clickedRole =
+      newValues.length > selectedRoles.length
+        ? newValues.find((role) => !selectedRoles.includes(role))
+        : selectedRoles.find((role) => !newValues.includes(role));
 
-    if (lastSelected === ALL_ROLES) {
-      setSelectedRoles([ALL_ROLES, ...uniqueRoles]);
-    } else {
-      setSelectedRoles([lastSelected]);
+    if (clickedRole === ALL_ROLES) {
+      if (selectedRoles.includes(ALL_ROLES)) {
+        return;
+      } else {
+        setSelectedRoles([ALL_ROLES, ...uniqueRoles]);
+        return;
+      }
+    }
+
+    if (clickedRole !== ALL_ROLES) {
+      setSelectedRoles([clickedRole]);
     }
   };
 
