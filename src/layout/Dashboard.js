@@ -1,6 +1,6 @@
 import React from "react";
 import Sidebar from "../components/SideBar";
-import { useStore } from "../store/useStore";
+import { userStore } from "../store/userStore";
 import { navStore } from "../store/navStore";
 import Header from "../components/Header";
 import UsersPage from "./UsersPage";
@@ -8,7 +8,7 @@ import TasksPage from "./TasksPage";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const Dashboard = () => {
-  const user = useStore((state) => state.user);
+  const user = userStore((state) => state.user);
   const currentPage = navStore((state) => state.currentPage);
   const queryClient = new QueryClient();
 

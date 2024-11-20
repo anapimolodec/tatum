@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-export const useStore = create(
+export const userStore = create(
   persist(
     (set) => ({
       user: null,

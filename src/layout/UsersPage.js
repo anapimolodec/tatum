@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useStore } from "../store/useStore";
+import { userStore } from "../store/userStore";
 import { useQuery } from "@tanstack/react-query";
 import { ROLES } from "../constants/types";
 import SearchBar from "../components/SearchBar";
@@ -21,7 +21,7 @@ const fetchUsers = async () => {
 const ALL = "ALL";
 
 const UsersPage = () => {
-  const { user } = useStore();
+  const { user } = userStore();
   const [selectedRoles, setSelectedRoles] = useState([ALL]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchField, setSearchField] = useState("userEmail");

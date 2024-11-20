@@ -7,7 +7,7 @@ import {
   EyeClosedIcon,
   EnterIcon,
 } from "@radix-ui/react-icons";
-import { useStore } from "../store/useStore";
+import { userStore } from "../store/userStore";
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -17,7 +17,7 @@ const LoginForm = () => {
   });
   const [error, setError] = useState("");
   const [isValid, setIsValid] = useState(false);
-  const { login, loginError, isLoading, clearError } = useStore();
+  const { login, loginError, isLoading, clearError } = userStore();
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -57,7 +57,7 @@ const LoginForm = () => {
         console.log("Login successful!");
         //TODO: add message?
       } else {
-        const currentError = useStore.getState().error;
+        const currentError = userStore.getState().error;
         setError(currentError);
       }
     }

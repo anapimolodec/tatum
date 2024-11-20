@@ -1,9 +1,9 @@
-import { useStore } from "./store/useStore";
+import { userStore } from "./store/userStore";
 import LoginCard from "./components/LoginCard";
 import Dashboard from "./layout/Dashboard";
 
 export default function App() {
-  const isAuthenticated = useStore((state) => state.isAuthenticated);
+  const isAuthenticated = userStore((state) => state.isAuthenticated);
 
   return (
     <>

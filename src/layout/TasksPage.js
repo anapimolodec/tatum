@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { useStore } from "../store/useStore";
+import { userStore } from "../store/userStore";
 import { useQuery } from "@tanstack/react-query";
 import { ROLES } from "../constants/types";
 import SearchBar from "../components/SearchBar";
@@ -20,7 +20,7 @@ const fetchTasks = async () => {
 const ALL = "ALL";
 
 const TasksPage = () => {
-  const { user } = useStore();
+  const { user } = userStore();
   const [searchTerm, setSearchTerm] = useState("");
   const [searchField, setSearchField] = useState("taskName");
   const [selectedTypes, setSelectedTypes] = useState([ALL]);
@@ -103,6 +103,7 @@ const TasksPage = () => {
     { id: "assignee", name: "Assignee" },
   ];
 
+  console.log("task page rendered");
   return (
     <div className="space-y-4">
       <div className="border-b pb-4 my-10 space-y-4">
@@ -111,6 +112,7 @@ const TasksPage = () => {
           searchTerm={searchTerm}
           setSearchField={setSearchField}
           options={options}
+          showButton={user.userRole !== ROLES.VIEWER}
         />
         <div className="flex flex-col space-y-4">
           <SelectedCount count={visibleTasks.length} />

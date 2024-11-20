@@ -1,7 +1,15 @@
 import { TextField, Select } from "@radix-ui/themes";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
+import CreateTaskDialog from "./CreateTaskDialog";
 
-const SearchBar = ({ handleSearch, searchTerm, setSearchField, options }) => {
+const SearchBar = ({
+  handleSearch,
+  searchTerm,
+  setSearchField,
+  options,
+  showButton,
+}) => {
+  console.log("search bar rendered");
   return (
     <div className="flex gap-1">
       <Select.Root defaultValue={options[0].id} onValueChange={setSearchField}>
@@ -26,6 +34,7 @@ const SearchBar = ({ handleSearch, searchTerm, setSearchField, options }) => {
           </TextField.Slot>
         </TextField.Root>
       </div>
+      {showButton && <CreateTaskDialog />}
     </div>
   );
 };
