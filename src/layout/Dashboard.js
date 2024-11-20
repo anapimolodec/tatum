@@ -7,10 +7,11 @@ import UsersPage from "./UsersPage";
 import TasksPage from "./TasksPage";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
+const queryClient = new QueryClient();
+
 const Dashboard = () => {
   const user = userStore((state) => state.user);
   const currentPage = navStore((state) => state.currentPage);
-  const queryClient = new QueryClient();
 
   const renderContent = () => {
     switch (currentPage) {

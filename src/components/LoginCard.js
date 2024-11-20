@@ -143,7 +143,7 @@ const LoginForm = () => {
                 disabled={!isValid || isLoading}
                 className={!isValid ? "opacity-50 cursor-not-allowed" : ""}
               >
-                {isValid && <CheckIcon />}
+                {isValid && <CheckIcon width={20} height={20} />}
                 {getNestedString("auth.login_action")}
               </Button>
             </div>

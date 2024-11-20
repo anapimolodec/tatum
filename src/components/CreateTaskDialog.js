@@ -1,8 +1,9 @@
 import { Dialog, Button } from "@radix-ui/themes";
-import React from "react";
+import React, { useState } from "react";
 import CreateTaskForm from "./CreateTaskForm";
 
 const CreateTaskDialog = React.memo(() => {
+  let [open, setOpen] = useState(false);
   console.log("dialog rendered");
 
   const handleCreateTask = () => {
@@ -10,11 +11,11 @@ const CreateTaskDialog = React.memo(() => {
   };
   const handleSubmit = (formData) => {
     console.log("Submitted data:", formData);
-    // Handle the submission
+    setOpen(false);
   };
 
   return (
-    <Dialog.Root>
+    <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Trigger>
         <Button color="teal" onClick={handleCreateTask}>
           Create Task
@@ -25,21 +26,8 @@ const CreateTaskDialog = React.memo(() => {
 
         <CreateTaskForm
           onSubmit={handleSubmit}
-          onCancel={() => {
-            /* handle cancel */
-          }}
+          onCancel={() => setOpen(false)}
         />
-
-        <div className="flex">
-          <Dialog.Close>
-            <Button variant="soft" color="gray">
-              Cancel
-            </Button>
-          </Dialog.Close>
-          <Dialog.Close>
-            <Button>Save</Button>
-          </Dialog.Close>
-        </div>
       </Dialog.Content>
     </Dialog.Root>
   );
