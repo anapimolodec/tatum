@@ -2,8 +2,13 @@ import { Table } from "@radix-ui/themes";
 import { getNestedString } from "../constants/strings";
 import { formatDate } from "../constants/functions";
 import { RowsIcon } from "@radix-ui/react-icons";
+import EmptyCard from "./EmptyCard";
 
 const TaskTable = ({ visibleTasks }) => {
+  if (visibleTasks.length === 0)
+    return (
+      <EmptyCard title={"No tasks"} desc={"There are no results to display"} />
+    );
   return (
     <Table.Root variant="ghost" layout="fixed">
       <Table.Header>

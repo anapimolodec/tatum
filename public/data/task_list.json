@@ -1,6 +1,28 @@
 [
     {
         "taskType": "\ud0dd\ubc30\uc694\uccad",
+        "taskName": "Test Task",
+        "taskDescription": "[ \ud0dd\ubc30\uc694\uccad ] Description for task TEST task",
+        "assignee": "Regular User",
+        "reporter": "Krystal Weaver",
+        "status": "Done",
+        "dueDate": "2024-09-25T13:55:35.837551",
+        "createdAt": "2024-08-26T13:55:35.837553",
+        "completedAt": "2024-08-26T13:55:35.837544"
+    },
+    {
+        "taskType": "\ud0dd\ubc30\uc694\uccad",
+        "taskName": "Test Task",
+        "taskDescription": "[ \ud0dd\ubc30\uc694\uccad ] Description for task TEST task",
+        "assignee": "Viewer User",
+        "reporter": "Regular User",
+        "status": "Done",
+        "dueDate": "2024-09-25T13:55:35.837551",
+        "createdAt": "2024-08-26T13:55:35.837553",
+        "completedAt": "2024-08-26T13:55:35.837544"
+    },
+    {
+        "taskType": "\ud0dd\ubc30\uc694\uccad",
         "taskName": "Task 21",
         "taskDescription": "[ \ud0dd\ubc30\uc694\uccad ] Description for task Task 21",
         "assignee": "Krystal Weaver",

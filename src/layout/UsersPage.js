@@ -8,6 +8,7 @@ import SelectedCount from "../components/SelectedCount";
 import Filters from "../components/Filters";
 import { handleOptionChange } from "../constants/functions";
 import UserTable from "../components/UserTable";
+import EmptyCard from "../components/EmptyCard";
 
 const fetchUsers = async () => {
   const response = await fetch("/data/user_list.json");
@@ -42,9 +43,13 @@ const UsersPage = () => {
     setSearchTerm(event.target.value);
   };
 
-  //TODO: make it less childish
   if (!user || user.userRole === ROLES.VIEWER) {
-    return <p>you cant see sorry T.T</p>;
+    return (
+      <EmptyCard
+        title={"Restricted"}
+        desc={"Sorry, you cannot access this page"}
+      />
+    );
   }
 
   if (isLoading) {
@@ -57,7 +62,6 @@ const UsersPage = () => {
 
   const getVisibleUsers = () => {
     let filteredUsers;
-
     switch (user.userRole) {
       case ROLES.ADMIN:
       case ROLES.PRIME:

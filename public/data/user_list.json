@@ -1,5 +1,21 @@
 [
     {
+        "userName": "Regular User",
+        "userPhone": "+82 010-3798-1059",
+        "userEmail": "regular@gmail.com",
+        "userRole": "RegularUser",
+        "createdAt": "2024-08-26T13:55:35.833919",
+        "lastLoggedInAt": "2024-08-26T13:55:35.833922"
+    },
+    {
+        "userName": "Viewer User",
+        "userPhone": "+82 010-3798-1059",
+        "userEmail": "viewer@gmail.com",
+        "userRole": "Viewer",
+        "createdAt": "2024-08-26T13:55:35.833919",
+        "lastLoggedInAt": "2024-08-26T13:55:35.833922"
+    },
+    {
         "userName": "Jeffrey Villanueva",
         "userPhone": "+82 010-3798-1059",
         "userEmail": "eobrien@example.org",

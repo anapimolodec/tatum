@@ -61,14 +61,10 @@ const TasksPage = () => {
         filteredTasks = tasks;
         break;
       case ROLES.REGULAR:
-        filteredTasks = tasks.filter(
-          (task) => task.reporter === user.userEmail
-        );
+        filteredTasks = tasks.filter((task) => task.reporter === user.userName);
         break;
       case ROLES.VIEWER:
-        filteredTasks = tasks.filter(
-          (task) => task.assignee === user.userEmail
-        );
+        filteredTasks = tasks.filter((task) => task.assignee === user.userName);
         break;
       default:
         return [];

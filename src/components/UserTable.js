@@ -1,8 +1,13 @@
 import { Table } from "@radix-ui/themes";
 import { getNestedString } from "../constants/strings";
 import { formatDate } from "../constants/functions";
+import EmptyCard from "./EmptyCard";
 
 const UserTable = ({ visibleUsers }) => {
+  if (visibleUsers.length === 0)
+    return (
+      <EmptyCard title={"No users"} desc={"There are no results to display"} />
+    );
   return (
     <Table.Root variant="ghost" layout="fixed">
       <Table.Header>
