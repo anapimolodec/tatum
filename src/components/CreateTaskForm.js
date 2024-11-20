@@ -28,6 +28,7 @@ const CreateTaskForm = ({ onSubmit, onCancel }) => {
         ? user.userName
         : users[0]?.userName || "",
     status: "Created",
+    taskType: TASK_TYPES[0],
   };
 
   const {
@@ -163,7 +164,7 @@ const CreateTaskForm = ({ onSubmit, onCancel }) => {
 
         <div className="space-y-1 flex flex-col">
           <label className="text-sm font-medium" htmlFor="taskType">
-            Task Type
+            Task Type *
           </label>
           <Controller
             name="taskType"
@@ -244,13 +245,8 @@ const CreateTaskForm = ({ onSubmit, onCancel }) => {
             <TextField.Root
               id="recipient"
               placeholder="김홍도"
-              {...register("recipient", {
-                required: "수신자 명은 필수입니다",
-              })}
+              {...register("recipient")}
             />
-            {errors.recipient && (
-              <p className="text-sm text-red-500">{errors.recipient.message}</p>
-            )}
           </div>
           <div className="space-y-1">
             <label className="text-sm font-medium" htmlFor="recipientPhone">
@@ -282,7 +278,6 @@ const CreateTaskForm = ({ onSubmit, onCancel }) => {
               placeholder="아스타나 123"
               color={errors.recipientAddress ? "red" : "gray"}
               {...register("recipientAddress", {
-                required: "주소는 필수입니다",
                 validate: {
                   containsLettersAndNumbers: (value) => {
                     const hasLetters = LETTERS_PATTERN.test(value);
@@ -309,10 +304,11 @@ const CreateTaskForm = ({ onSubmit, onCancel }) => {
       );
 
     return (
-      <>
+      <div className="space-y-6">
         {commonFields}
+        <hr />
         {taskTypeFields}
-      </>
+      </div>
     );
   };
 
