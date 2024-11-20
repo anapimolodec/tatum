@@ -1,40 +1,40 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { userStore } from "../store/userStore";
-import { useQuery } from "@tanstack/react-query";
 import { ROLES } from "../constants/types";
 import SearchBar from "../components/SearchBar";
-import { strings } from "../constants/strings";
+import { strings, getNestedString } from "../constants/strings";
 import SelectedCount from "../components/SelectedCount";
 import Filters from "../components/Filters";
 import { handleOptionChange } from "../constants/functions";
 import TaskTable from "../components/TaskTable";
-
-const fetchTasks = async () => {
-  const response = await fetch("/data/task_list.json");
-  if (!response.ok) {
-    throw new Error("Failed to fetch tasks");
-  }
-  return response.json();
-};
+import { Callout } from "@radix-ui/themes";
+import { InfoCircledIcon } from "@radix-ui/react-icons";
+import { useTaskStore } from "../store/taskStore";
 
 const ALL = "ALL";
 
 const TasksPage = () => {
   const { user } = userStore();
+  const { tasks, isLoading, error, fetchTasks } = useTaskStore();
   const [searchTerm, setSearchTerm] = useState("");
   const [searchField, setSearchField] = useState("taskName");
   const [selectedTypes, setSelectedTypes] = useState([ALL]);
   const [selectedStatuses, setSelectedStatuses] = useState([ALL]);
+  const [showAlert, setShowAlert] = useState(false);
 
-  const {
-    data: tasks = [],
-    isLoading,
-    error,
-  } = useQuery({
-    queryKey: ["tasks"],
-    queryFn: fetchTasks,
-    enabled: !!user,
-  });
+  useEffect(() => {
+    if (user) {
+      fetchTasks();
+    }
+    // eslint-disable-next-line
+  }, [user]);
+
+  const handleTaskCreated = () => {
+    setShowAlert(true);
+    setTimeout(() => {
+      setShowAlert(false);
+    }, 3000);
+  };
 
   const { uniqueTypes, uniqueStatuses } = useMemo(() => {
     const types = new Set(tasks.map((task) => task.taskType));
@@ -93,7 +93,7 @@ const TasksPage = () => {
   };
 
   if (isLoading) return <p>{strings.loading}</p>;
-  if (error) return <p>{error.message}</p>;
+  if (error) return <p>{error}</p>;
 
   const visibleTasks = getVisibleTasks();
   const options = [
@@ -103,16 +103,32 @@ const TasksPage = () => {
     { id: "assignee", name: "Assignee" },
   ];
 
-  console.log("task page rendered");
   return (
     <div className="space-y-4">
       <div className="border-b pb-4 my-10 space-y-4">
+        {showAlert && (
+          <Callout.Root
+            color="teal"
+            className="w-full animate-slide-in-right z-50"
+          >
+            <Callout.Icon>
+              <InfoCircledIcon />
+            </Callout.Icon>
+            <Callout.Text>
+              <h3 className="font-bold">
+                {getNestedString("tasks.success_title")}
+              </h3>
+              <p>{getNestedString("tasks.success_message")}</p>
+            </Callout.Text>
+          </Callout.Root>
+        )}
         <SearchBar
           handleSearch={handleSearch}
           searchTerm={searchTerm}
           setSearchField={setSearchField}
           options={options}
           showButton={user.userRole !== ROLES.VIEWER}
+          onTaskCreated={handleTaskCreated}
         />
         <div className="flex flex-col space-y-4">
           <SelectedCount count={visibleTasks.length} />
@@ -146,6 +162,7 @@ const TasksPage = () => {
           />
         </div>
       </div>
+
       <TaskTable visibleTasks={visibleTasks} />
     </div>
   );

@@ -12,6 +12,7 @@ import {
   LETTERS_PATTERN,
   PHONE_PATTERN,
 } from "../constants/types";
+import { strings, getNestedString } from "../constants/strings";
 
 const TASK_TYPES = ["물품 구매", "택배요청"];
 
@@ -96,7 +97,7 @@ const CreateTaskForm = ({ onSubmit, onCancel }) => {
       <div className="space-y-3">
         <div className="space-y-1">
           <label htmlFor="reporter" className="text-sm font-medium">
-            Reporter
+            {getNestedString("tasks.reporter")}
           </label>
           <TextField.Root
             id="reporter"
@@ -108,12 +109,14 @@ const CreateTaskForm = ({ onSubmit, onCancel }) => {
 
         <div className="space-y-1">
           <label className="text-sm font-medium" htmlFor="taskName">
-            Task Name *
+            {getNestedString("tasks.task_name")}*
           </label>
           <TextField.Root
             id="taskName"
-            placeholder="Task 이름을 입력하세요"
-            {...register("taskName", { required: "Task 이름은 필수입니다" })}
+            placeholder={getNestedString("tasks.type_task_name")}
+            {...register("taskName", {
+              required: getNestedString("errors.task_name"),
+            })}
           />
           {errors.taskName && (
             <p className="text-sm text-red-500">{errors.taskName.message}</p>
@@ -122,7 +125,7 @@ const CreateTaskForm = ({ onSubmit, onCancel }) => {
 
         <div className="space-y-1 flex flex-col">
           <label className="text-sm font-medium" htmlFor="assignee">
-            Assignee
+            {getNestedString("tasks.assignee")}
           </label>
           {user.userRole === ROLES.REGULAR ? (
             <TextField.Root
@@ -135,7 +138,7 @@ const CreateTaskForm = ({ onSubmit, onCancel }) => {
             <Controller
               name="assignee"
               control={control}
-              rules={{ required: "담당자를 선택해주세요" }}
+              rules={{ required: getNestedString("errors.assignee") }}
               render={({ field }) => (
                 <Select.Root
                   defaultValue={users[0]?.userName || ""}
@@ -164,7 +167,7 @@ const CreateTaskForm = ({ onSubmit, onCancel }) => {
 
         <div className="space-y-1 flex flex-col">
           <label className="text-sm font-medium" htmlFor="taskType">
-            Task Type *
+            {getNestedString("tasks.task_type")}
           </label>
           <Controller
             name="taskType"
@@ -206,26 +209,26 @@ const CreateTaskForm = ({ onSubmit, onCancel }) => {
         <div className="space-y-3">
           <div className="space-y-1">
             <label className="text-sm font-medium" htmlFor="productName">
-              물품명
+              {getNestedString("tasks.product_name")}
             </label>
             <TextField.Root
               id="productName"
-              placeholder="물품 명을 입력하세요"
+              placeholder={getNestedString("tasks.type_product_name")}
               {...register("productName")}
             />
           </div>
           <div className="space-y-1">
             <label className="text-sm font-medium" htmlFor="productCount">
-              물품 갯수
+              {getNestedString("tasks.product_count")}
             </label>
             <TextField.Root
               id="productCount"
-              placeholder="물품 갯수를 입력하세요"
+              placeholder={getNestedString("tasks.type_product_count")}
               color={errors.productCount ? "red" : "gray"}
               {...register("productCount", {
                 pattern: {
                   value: DIGIT_PATTERN,
-                  message: "숫자 형태여야 합니다",
+                  message: getNestedString("errors.digit"),
                 },
               })}
             />
@@ -240,26 +243,26 @@ const CreateTaskForm = ({ onSubmit, onCancel }) => {
         <div className="space-y-3">
           <div className="space-y-1">
             <label className="text-sm font-medium" htmlFor="recipient">
-              수신자 명
+              {getNestedString("tasks.recipient_name")}
             </label>
             <TextField.Root
               id="recipient"
-              placeholder="김홍도"
+              placeholder={getNestedString("tasks.type_recipient_name")}
               {...register("recipient")}
             />
           </div>
           <div className="space-y-1">
             <label className="text-sm font-medium" htmlFor="recipientPhone">
-              수신자 전화번호
+              {getNestedString("tasks.recipient_number")}
             </label>
             <TextField.Root
               id="recipientPhone"
-              placeholder="010-2222-3333"
+              placeholder={getNestedString("tasks.type_recipient_number")}
               color={errors.recipientPhone ? "red" : "gray"}
               {...register("recipientPhone", {
                 pattern: {
                   value: PHONE_PATTERN,
-                  message: "올바른 휴대폰 번호를 입력해주세요",
+                  message: getNestedString("errors.phone"),
                 },
               })}
             />
@@ -271,11 +274,11 @@ const CreateTaskForm = ({ onSubmit, onCancel }) => {
           </div>
           <div className="space-y-1">
             <label className="text-sm font-medium" htmlFor="recipientAddress">
-              수신자 주소
+              {getNestedString("tasks.recipient_address")}
             </label>
             <TextField.Root
               id="recipientAddress"
-              placeholder="아스타나 123"
+              placeholder={getNestedString("tasks.type_recipient_address")}
               color={errors.recipientAddress ? "red" : "gray"}
               {...register("recipientAddress", {
                 validate: {
@@ -284,13 +287,13 @@ const CreateTaskForm = ({ onSubmit, onCancel }) => {
                     const hasNumbers = DIGIT_PATTERN.test(value);
                     return (
                       (hasLetters && hasNumbers) ||
-                      "주소는 글자와 숫자를 모두 포함해야 합니다"
+                      getNestedString("errors.address")
                     );
                   },
                 },
                 pattern: {
                   value: ADDRESS_PATTERN,
-                  message: "올바른 주소를 입력해주세요",
+                  message: getNestedString("errors.address2"),
                 },
               })}
             />
@@ -318,17 +321,17 @@ const CreateTaskForm = ({ onSubmit, onCancel }) => {
 
       <div className="space-y-1">
         <label className="text-sm font-medium" htmlFor="dueDate">
-          Due Date *
+          {getNestedString("tasks.due_date")}*
         </label>
         <TextField.Root
           id="dueDate"
-          placeholder="yyyy-mm-dd"
+          placeholder={getNestedString("tasks.type_due_date")}
           color={errors.dueDate ? "red" : "gray"}
           {...register("dueDate", {
-            required: "마감일을 입력해 주세요",
+            required: getNestedString("errors.due_date"),
             pattern: {
               value: DATE_PATTERN,
-              message: "yyyy-mm-dd 형태의 날짜 포맷이어야 합니다.",
+              message: getNestedString("tasks.type_due_date_format"),
             },
           })}
         />
@@ -339,7 +342,7 @@ const CreateTaskForm = ({ onSubmit, onCancel }) => {
 
       <div className="flex justify-end space-x-2 pt-4">
         <Button variant="soft" color="gray" type="button" onClick={onCancel}>
-          Cancel
+          {strings.cancel}
         </Button>
         <Button
           type="submit"
@@ -349,7 +352,7 @@ const CreateTaskForm = ({ onSubmit, onCancel }) => {
           {isValid && isDirty && Object.keys(errors).length === 0 && (
             <CheckIcon width={20} height={20} />
           )}
-          Create
+          {strings.create}
         </Button>
       </div>
     </form>

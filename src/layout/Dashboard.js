@@ -6,6 +6,7 @@ import Header from "../components/Header";
 import UsersPage from "./UsersPage";
 import TasksPage from "./TasksPage";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { strings } from "../constants/strings";
 
 const queryClient = new QueryClient();
 
@@ -20,7 +21,7 @@ const Dashboard = () => {
       case "tasks":
         return <TasksPage />;
       default:
-        return <p>Something is wrong</p>;
+        return <p>{strings.something_is_wrong}</p>;
     }
   };
 

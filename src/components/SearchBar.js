@@ -1,6 +1,7 @@
 import { TextField, Select } from "@radix-ui/themes";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import CreateTaskDialog from "./CreateTaskDialog";
+import { strings } from "../constants/strings";
 
 const SearchBar = ({
   handleSearch,
@@ -8,6 +9,7 @@ const SearchBar = ({
   setSearchField,
   options,
   showButton,
+  onTaskCreated,
 }) => {
   console.log("search bar rendered");
   return (
@@ -25,7 +27,7 @@ const SearchBar = ({
 
       <div className="w-72">
         <TextField.Root
-          placeholder="Search..."
+          placeholder={strings.search_dots}
           value={searchTerm}
           onChange={handleSearch}
         >
@@ -34,7 +36,7 @@ const SearchBar = ({
           </TextField.Slot>
         </TextField.Root>
       </div>
-      {showButton && <CreateTaskDialog />}
+      {showButton && <CreateTaskDialog onTaskCreated={onTaskCreated} />}
     </div>
   );
 };
