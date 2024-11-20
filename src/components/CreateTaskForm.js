@@ -1,14 +1,12 @@
-import React, { useMemo, useRef } from "react";
+import React, { useMemo } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { Button, Select, TextField } from "@radix-ui/themes";
 import { userStore } from "../store/userStore";
 import { ROLES } from "../constants/types";
-import { useQueryClient } from "@tanstack/react-query";
 import { CheckIcon } from "@radix-ui/react-icons";
 import {
   DATE_PATTERN,
   DIGIT_PATTERN,
-  ADDRESS_PATTERN,
   LETTERS_PATTERN,
   PHONE_PATTERN,
 } from "../constants/types";
@@ -17,10 +15,7 @@ import { strings, getNestedString } from "../constants/strings";
 const TASK_TYPES = ["물품 구매", "택배요청"];
 
 const CreateTaskForm = ({ onSubmit, onCancel }) => {
-  const { user } = userStore();
-  const queryClient = useQueryClient();
-  const usersDataRef = useRef(queryClient.getQueryData(["users"]) || []);
-  const users = usersDataRef.current;
+  const { user, users } = userStore();
 
   const defaultValues = {
     reporter: user.userName,
@@ -281,19 +276,17 @@ const CreateTaskForm = ({ onSubmit, onCancel }) => {
               placeholder={getNestedString("tasks.type_recipient_address")}
               color={errors.recipientAddress ? "red" : "gray"}
               {...register("recipientAddress", {
+                required: getNestedString("errors.address_required"),
                 validate: {
                   containsLettersAndNumbers: (value) => {
                     const hasLetters = LETTERS_PATTERN.test(value);
                     const hasNumbers = DIGIT_PATTERN.test(value);
+                    console.log(hasLetters, hasNumbers);
                     return (
                       (hasLetters && hasNumbers) ||
                       getNestedString("errors.address")
                     );
                   },
-                },
-                pattern: {
-                  value: ADDRESS_PATTERN,
-                  message: getNestedString("errors.address2"),
                 },
               })}
             />

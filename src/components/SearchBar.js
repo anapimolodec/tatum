@@ -11,7 +11,6 @@ const SearchBar = ({
   showButton,
   onTaskCreated,
 }) => {
-  console.log("search bar rendered");
   return (
     <div className="flex gap-1">
       <Select.Root defaultValue={options[0].id} onValueChange={setSearchField}>

@@ -5,9 +5,21 @@ export const userStore = create(
   persist(
     (set) => ({
       user: null,
+      users: [],
       isAuthenticated: false,
       error: null,
       isLoading: false,
+
+      fetchUsers: async () => {
+        set({ isLoading: true, error: null });
+        try {
+          const response = await fetch("/data/user_list.json");
+          const users = await response.json();
+          set({ users, isLoading: false });
+        } catch (error) {
+          set({ error: error.message, isLoading: false });
+        }
+      },
 
       login: async (email, password) => {
         set({ isLoading: true, error: null });
@@ -29,6 +41,7 @@ export const userStore = create(
               user: userSession,
               isAuthenticated: true,
               error: null,
+              users: data,
             });
 
             return true;
@@ -50,6 +63,7 @@ export const userStore = create(
           user: null,
           isAuthenticated: false,
           error: null,
+          users: [],
         }),
 
       clearError: () => set({ error: null }),
@@ -59,6 +73,7 @@ export const userStore = create(
       partialize: (state) => ({
         user: state.user,
         isAuthenticated: state.isAuthenticated,
+        users: state.users,
       }),
     }
   )

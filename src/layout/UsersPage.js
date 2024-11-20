@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { userStore } from "../store/userStore";
-import { useQuery } from "@tanstack/react-query";
 import { ROLES } from "../constants/types";
 import SearchBar from "../components/SearchBar";
 import { getNestedString, strings } from "../constants/strings";
@@ -10,31 +9,13 @@ import { handleOptionChange } from "../constants/functions";
 import UserTable from "../components/UserTable";
 import EmptyCard from "../components/EmptyCard";
 
-const fetchUsers = async () => {
-  const response = await fetch("/data/user_list.json");
-  if (!response.ok) {
-    throw new Error("Failed to fetch users");
-  }
-  return response.json();
-};
-
 const ALL = "ALL";
 
 const UsersPage = () => {
-  const { user } = userStore();
+  const { user, users, isLoading, error } = userStore();
   const [selectedRoles, setSelectedRoles] = useState([ALL]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchField, setSearchField] = useState("userEmail");
-
-  const {
-    data: users = [],
-    isLoading,
-    error,
-  } = useQuery({
-    queryKey: ["users"],
-    queryFn: fetchUsers,
-    enabled: !!user && user.userRole !== ROLES.VIEWER,
-  });
 
   const uniqueRoles = [...new Set(users.map((user) => user.userRole))];
   const availableRoles = [ALL, ...uniqueRoles];
@@ -45,10 +26,7 @@ const UsersPage = () => {
 
   if (!user || user.userRole === ROLES.VIEWER) {
     return (
-      <EmptyCard
-        title={"Restricted"}
-        desc={"Sorry, you cannot access this page"}
-      />
+      <EmptyCard title={strings.restricted} desc={strings.restricted_text} />
     );
   }
 

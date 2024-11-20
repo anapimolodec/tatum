@@ -5,10 +5,7 @@ import { navStore } from "../store/navStore";
 import Header from "../components/Header";
 import UsersPage from "./UsersPage";
 import TasksPage from "./TasksPage";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { strings } from "../constants/strings";
-
-const queryClient = new QueryClient();
 
 const Dashboard = () => {
   const user = userStore((state) => state.user);
@@ -32,9 +29,7 @@ const Dashboard = () => {
       </aside>
       <main className="flex-1 p-6 ">
         <Header user={user} currentPage={currentPage} />
-        <QueryClientProvider client={queryClient}>
-          {renderContent()}
-        </QueryClientProvider>
+        {renderContent()}
       </main>
     </div>
   );

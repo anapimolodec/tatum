@@ -63,6 +63,8 @@ export const strings = {
   search_dots: "Search...",
   create: "Create",
   selected: "Selected",
+  restricted: "Restricted",
+  restricted_text: "Sorry, you cannot access this page",
   no_tasks: "No tasks",
   no_users: "No users",
   no_result_text: "There are no results to display",
