@@ -69,6 +69,7 @@ export const strings = {
   no_users: "No users",
   no_result_text: "There are no results to display",
   something_is_wrong: "Something is wrong",
+  logout: "Logout",
 };
 
 export const getNestedString = (path) => {

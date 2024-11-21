@@ -8,7 +8,7 @@ export default function App() {
   return (
     <>
       {!isAuthenticated ? (
-        <div className="flex justify-center items-center h-screen w-screen">
+        <div className="flex justify-center items-center h-screen w-screen bg-gradient-to-tr from-green-100 to-teal-700">
           <LoginCard />
         </div>
       ) : (

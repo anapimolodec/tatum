@@ -12,7 +12,7 @@ import {
 } from "../constants/types";
 import { strings, getNestedString } from "../constants/strings";
 
-const TASK_TYPES = ["물품 구매", "택배요청"];
+const TASK_TYPES = ["물품구매", "택배요청"];
 
 const CreateTaskForm = ({ onSubmit, onCancel }) => {
   const { user, users } = userStore();

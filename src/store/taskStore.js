@@ -53,6 +53,9 @@ export const useTaskStore = create(
     }),
     {
       name: "tasks",
+      partialize: (state) => ({
+        tasks: state.tasks,
+      }),
     }
   )
 );

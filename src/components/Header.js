@@ -1,15 +1,16 @@
 import React from "react";
-import { IconButton } from "@radix-ui/themes";
-import { PersonIcon, ChevronDownIcon } from "@radix-ui/react-icons";
+import { IconButton, DropdownMenu } from "@radix-ui/themes";
+import { PersonIcon, ChevronDownIcon, ExitIcon } from "@radix-ui/react-icons";
 import { userStore } from "../store/userStore";
+import { strings } from "../constants/strings";
 
 const Header = ({ user, currentPage }) => {
   const logout = userStore((state) => state.logout);
-  //TODO: add logout function
 
   const handleLogout = () => {
     logout();
   };
+
   return (
     <nav className="flex justify-between items-center">
       <h1 className="text-2xl font-bold mb-4">
@@ -19,9 +20,24 @@ const Header = ({ user, currentPage }) => {
         <span>{user.userName}</span>
         <span>{user.userRole}</span>
 
-        <IconButton variant="ghost" onClick={handleLogout}>
-          <ChevronDownIcon />
-        </IconButton>
+        <DropdownMenu.Root>
+          <DropdownMenu.Trigger>
+            <IconButton variant="ghost" className="cursor-pointer">
+              <ChevronDownIcon />
+            </IconButton>
+          </DropdownMenu.Trigger>
+
+          <DropdownMenu.Content>
+            <DropdownMenu.Item
+              className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 cursor-pointer"
+              onClick={handleLogout}
+            >
+              <ExitIcon className="w-4 h-4 hover:color-white" />
+              {strings.logout}
+            </DropdownMenu.Item>
+          </DropdownMenu.Content>
+        </DropdownMenu.Root>
+
         <PersonIcon className="ml-4" />
       </div>
     </nav>
