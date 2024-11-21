@@ -98,7 +98,7 @@ const TasksPage = () => {
   }
 
   const visibleTasks = getVisibleTasks();
-  console.log("visible tasks", visibleTasks);
+
   const options = [
     { id: "taskName", name: "Task Name" },
     { id: "reporter", name: "Reporter" },
@@ -121,7 +121,7 @@ const TasksPage = () => {
               <span className="font-bold">
                 {getNestedString("tasks.success_title")}
               </span>
-              <p>{getNestedString("tasks.success_message")}</p>
+              <span>{getNestedString("tasks.success_message")}</span>
             </Callout.Text>
           </Callout.Root>
         )}

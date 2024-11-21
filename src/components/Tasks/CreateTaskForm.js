@@ -282,7 +282,6 @@ const CreateTaskForm = ({ onSubmit, onCancel }) => {
                   containsLettersAndNumbers: (value) => {
                     const hasLetters = LETTERS_PATTERN.test(value);
                     const hasNumbers = DIGIT_PATTERN.test(value);
-                    console.log(hasLetters, hasNumbers);
                     return (
                       (hasLetters && hasNumbers) ||
                       getNestedString("errors.address")

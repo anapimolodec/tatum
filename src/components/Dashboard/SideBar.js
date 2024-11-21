@@ -18,12 +18,12 @@ const Sidebar = () => {
     {
       path: "/dashboard/users",
       label: "Users",
-      icon: <GridIcon className="stroke-white stroke-1" />,
+      icon: <GridIcon />,
     },
     {
       path: "/dashboard/tasks",
       label: "Tasks",
-      icon: <CalendarIcon className="stroke-white stroke-1" />,
+      icon: <CalendarIcon />,
     },
   ];
 

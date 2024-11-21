@@ -7,7 +7,7 @@ import { strings } from "@/lib/constants/strings";
 import { usePathname } from "next/navigation";
 const Header = () => {
   const pathname = usePathname();
-  console.log(pathname);
+
   const { user, logout } = userStore();
   if (!user) {
     return null;
@@ -37,7 +37,7 @@ const Header = () => {
 
           <DropdownMenu.Content>
             <DropdownMenu.Item
-              className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 cursor-pointer"
+              className="flex items-center gap-2 px-4 py-2 text-sm cursor-pointer"
               onClick={handleLogout}
             >
               <ExitIcon className="w-4 h-4 hover:color-white" />

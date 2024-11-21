@@ -1,25 +1,31 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import SideBar from "@/components/Dashboard/SideBar";
 import Header from "@/components/Dashboard/Header";
 import { userStore } from "@/lib/store/userStore";
 import { useRouter } from "next/navigation";
+import { strings } from "@/lib/constants/strings";
 
 export default function DashboardLayout({ children }) {
   const router = useRouter();
   const user = userStore((state) => state.user);
   const logout = userStore((state) => state.logout);
+  const [isHydrated, setIsHydrated] = useState(false);
 
   useEffect(() => {
-    if (!user) {
+    setIsHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    if (isHydrated && !user) {
       logout();
       router.replace("/");
     }
-  }, [user, logout, router]);
+  }, [isHydrated, user, logout, router]);
 
-  if (!user) {
-    return null;
+  if (!isHydrated || !user) {
+    return <p>{strings.something_is_wrong}</p>;
   }
 
   return (

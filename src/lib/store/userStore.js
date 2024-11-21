@@ -1,4 +1,3 @@
-// src/lib/store/userStore.js
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -11,25 +10,6 @@ export const userStore = create(
       isAuthenticated: false,
       error: null,
       isLoading: false,
-      validateSession: () => {
-        const state = get();
-        if (state.isAuthenticated && !state.user) {
-          state.logout();
-        }
-      },
-      fetchUsers: async () => {
-        set({ isLoading: true, error: null });
-        try {
-          const response = await fetch("/api/data?type=users");
-          if (!response.ok) {
-            throw new Error("Failed to fetch users");
-          }
-          const users = await response.json();
-          set({ users: users || [], isLoading: false });
-        } catch (error) {
-          set({ error: error.message, isLoading: false });
-        }
-      },
 
       login: async (email, password) => {
         set({ isLoading: true, error: null });
@@ -40,6 +20,7 @@ export const userStore = create(
               "Content-Type": "application/json",
             },
             body: JSON.stringify({ email, password }),
+            credentials: "include",
           });
 
           const data = await response.json();
@@ -48,18 +29,20 @@ export const userStore = create(
             throw new Error(data.error || "Login failed");
           }
 
-          console.log(data);
-          set({
+          const newState = {
             user: data.user,
             users: data.users || [],
             tasks: data.tasks || [],
             isAuthenticated: true,
             error: null,
             isLoading: false,
-          });
+          };
+
+          set(newState);
 
           return true;
         } catch (error) {
+          console.error("Login error:", error);
           set({
             user: null,
             isAuthenticated: false,
@@ -69,6 +52,7 @@ export const userStore = create(
           return false;
         }
       },
+
       createTask: (formData) => {
         const taskDescription = `[ ${formData.taskType} ] Description for task ${formData.taskName}`;
 
@@ -93,32 +77,48 @@ export const userStore = create(
           newTask.recipientAddress = formData.recipientAddress || "";
         }
 
-        set((state) => ({
-          tasks: [...state.tasks, newTask],
-        }));
+        set((state) => {
+          const newState = {
+            ...state,
+            tasks: [...state.tasks, newTask],
+          };
+
+          return newState;
+        });
 
         return newTask;
       },
 
       logout: () => {
-        set({
+        const newState = {
           user: null,
+          users: [],
+          tasks: [],
           isAuthenticated: false,
           error: null,
           isLoading: false,
-        });
+        };
+        set(newState);
       },
 
       clearError: () => set({ error: null }),
     }),
     {
       name: "auth-storage",
-      partialize: (state) => ({
-        user: state.user,
-        users: state.users,
-        tasks: state.tasks,
-        isAuthenticated: state.isAuthenticated,
-      }),
+      partialize: (state) => {
+        const persistedState = {
+          user: state.user,
+          users: state.users,
+          tasks: state.tasks,
+          isAuthenticated: state.isAuthenticated,
+        };
+
+        return persistedState;
+      },
     }
   )
 );
+
+userStore.subscribe((state) => {
+  console.log("Store updated:", state);
+});
