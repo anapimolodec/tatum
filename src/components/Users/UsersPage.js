@@ -15,14 +15,13 @@ const ALL = "ALL";
 
 const UsersPage = () => {
   const { user, users, isLoading, error } = userStore();
-  if (!user) {
-    return null;
-  }
-
   const [selectedRoles, setSelectedRoles] = useState([ALL]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchField, setSearchField] = useState("userEmail");
 
+  if (!user) {
+    return null;
+  }
   const uniqueRoles = [...new Set(users.map((user) => user.userRole))];
   const availableRoles = [ALL, ...uniqueRoles];
 

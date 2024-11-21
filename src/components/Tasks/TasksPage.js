@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 import { userStore } from "../../lib/store/userStore";
 import { ROLES } from "../../lib/constants/types";
 import SearchBar from "../SearchBar";
