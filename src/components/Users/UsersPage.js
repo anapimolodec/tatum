@@ -18,7 +18,7 @@ const UsersPage = () => {
   if (!user) {
     return null;
   }
-  console.log("users", users);
+
   const [selectedRoles, setSelectedRoles] = useState([ALL]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchField, setSearchField] = useState("userEmail");

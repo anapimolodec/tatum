@@ -4,48 +4,43 @@ import React, { useState, useMemo, useEffect } from "react";
 import { userStore } from "../../lib/store/userStore";
 import { ROLES } from "../../lib/constants/types";
 import SearchBar from "../SearchBar";
-import { strings, getNestedString } from "../../lib/constants/strings";
+import { getNestedString } from "../../lib/constants/strings";
 import SelectedCount from "../SelectedCount";
 import Filters from "../Filters";
 import { handleOptionChange } from "../../lib/constants/functions";
 import TaskTable from "./TaskTable";
 import { Callout } from "@radix-ui/themes";
-import {
-  InfoCircledIcon,
-  ExclamationTriangleIcon,
-} from "@radix-ui/react-icons";
-import { taskStore } from "../../lib/store/taskStore";
+import { InfoCircledIcon } from "@radix-ui/react-icons";
 
 const ALL = "ALL";
 
 const TasksPage = () => {
-  const { user } = userStore();
-  const { tasks, isLoading, error, fetchTasks } = taskStore();
+  const { user, tasks, isLoading, error } = userStore();
   const [searchTerm, setSearchTerm] = useState("");
   const [searchField, setSearchField] = useState("taskName");
   const [selectedTypes, setSelectedTypes] = useState([ALL]);
   const [selectedStatuses, setSelectedStatuses] = useState([ALL]);
   const [showAlert, setShowAlert] = useState(false);
 
-  console.log("USER: ", user);
-  useEffect(() => {
-    if (user) {
-      console.log("tasks 1: ", tasks);
-      const loadTasks = async () => {
-        if (user) {
-          try {
-            await fetchTasks();
-          } catch (error) {
-            console.error("Error loading tasks:", error);
-          }
-        }
-      };
+  // useEffect(() => {
+  //   console.log("USERing: ", user);
+  //   if (user) {
+  //     console.log("tasks 1: ", tasks);
+  //     const loadTasks = async () => {
+  //       if (user) {
+  //         try {
+  //           await fetchTasks();
+  //         } catch (error) {
+  //           console.error("Error loading tasks:", error);
+  //         }
+  //       }
+  //     };
 
-      loadTasks();
-    }
-    console.log("tasks 2: ", tasks);
-    // eslint-disable-next-line
-  }, [user]);
+  //     loadTasks();
+  //   }
+  //   console.log("tasks 2: ", tasks);
+  //   // eslint-disable-next-line
+  // }, [user]);
 
   const handleTaskCreated = () => {
     setShowAlert(true);
@@ -143,9 +138,9 @@ const TasksPage = () => {
               <InfoCircledIcon />
             </Callout.Icon>
             <Callout.Text>
-              <h3 className="font-bold">
+              <span className="font-bold">
                 {getNestedString("tasks.success_title")}
-              </h3>
+              </span>
               <p>{getNestedString("tasks.success_message")}</p>
             </Callout.Text>
           </Callout.Root>

@@ -4,11 +4,12 @@ import { IconButton, DropdownMenu } from "@radix-ui/themes";
 import { PersonIcon, ChevronDownIcon, ExitIcon } from "@radix-ui/react-icons";
 import { userStore } from "@/lib/store/userStore";
 import { strings } from "@/lib/constants/strings";
-
+import { usePathname } from "next/navigation";
 const Header = () => {
-  const { user, logout } = userStore((state) => state.logout);
+  const pathname = usePathname();
+  console.log(pathname);
+  const { user, logout } = userStore();
   if (!user) {
-    console.log("no user");
     return null;
   }
 
@@ -18,7 +19,11 @@ const Header = () => {
 
   return (
     <nav className="flex justify-between items-center">
-      <h1 className="text-2xl font-bold mb-4"></h1>
+      <h1 className="text-2xl font-bold mb-4">
+        {pathname === "/dashboard/users"
+          ? strings.user_list
+          : strings.task_list}
+      </h1>
       <div className="flex gap-2 items-center text-blue-600 font-bold text-sm">
         <span>{user.userName}</span>
         <span>{user.userRole}</span>

@@ -26,9 +26,14 @@ export async function POST(request) {
         lastLoggedInAt: new Date().toISOString(),
       };
 
+      const dataPath = path.join(process.cwd(), "data", "task_list.json");
+      const data = await fs.readFile(dataPath, "utf8");
+      const tasks = JSON.parse(data);
+
       return NextResponse.json({
         user: userSession,
         users: users.map(({ password, ...user }) => user),
+        tasks: tasks,
       });
     }
 

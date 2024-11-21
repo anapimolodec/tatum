@@ -3,12 +3,12 @@ import { Dialog, Button } from "@radix-ui/themes";
 import React, { useState } from "react";
 import CreateTaskForm from "./CreateTaskForm";
 import { CardStackPlusIcon } from "@radix-ui/react-icons";
-import { taskStore } from "../../lib/store/taskStore";
 import { getNestedString } from "../../lib/constants/strings";
+import { userStore } from "@/lib/store/userStore";
 
 const CreateTaskDialog = React.memo(({ onTaskCreated }) => {
   let [open, setOpen] = useState(false);
-  const createTask = taskStore((state) => state.createTask);
+  const createTask = userStore((state) => state.createTask);
 
   const handleSubmit = (formData) => {
     createTask(formData);

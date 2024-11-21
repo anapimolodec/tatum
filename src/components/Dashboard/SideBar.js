@@ -31,7 +31,7 @@ const Sidebar = () => {
     <div
       className={`${
         isOpen ? "w-64" : "w-16"
-      } bg-teal-700 min-h-screen h-full p-4 pt-8 relative duration-300`}
+      } bg-teal-700 min-h-screen h-auto p-4 pt-8 relative duration-300`}
     >
       <button
         className="absolute -right-4 top-9 w-7 h-7 bg-white rounded-full flex items-center justify-center cursor-pointer border-2 border-teal-700"
@@ -63,7 +63,7 @@ const Sidebar = () => {
                 !isOpen && "hidden"
               } origin-left duration-300 text-base font-bold`}
             >
-              {item.title}
+              {item.label}
             </span>
           </div>
         ))}

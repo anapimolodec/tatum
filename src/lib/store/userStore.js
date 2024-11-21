@@ -7,6 +7,7 @@ export const userStore = create(
     (set, get) => ({
       user: null,
       users: [],
+      tasks: [],
       isAuthenticated: false,
       error: null,
       isLoading: false,
@@ -19,7 +20,7 @@ export const userStore = create(
       fetchUsers: async () => {
         set({ isLoading: true, error: null });
         try {
-          const response = await fetch("/api/users");
+          const response = await fetch("/api/data?type=users");
           if (!response.ok) {
             throw new Error("Failed to fetch users");
           }
@@ -51,6 +52,7 @@ export const userStore = create(
           set({
             user: data.user,
             users: data.users || [],
+            tasks: data.tasks || [],
             isAuthenticated: true,
             error: null,
             isLoading: false,
@@ -66,6 +68,36 @@ export const userStore = create(
           });
           return false;
         }
+      },
+      createTask: (formData) => {
+        const taskDescription = `[ ${formData.taskType} ] Description for task ${formData.taskName}`;
+
+        const newTask = {
+          taskType: formData.taskType,
+          taskName: formData.taskName,
+          taskDescription: taskDescription,
+          assignee: formData.assignee,
+          reporter: formData.reporter,
+          status: "Created",
+          dueDate: new Date(formData.dueDate).toISOString(),
+          createdAt: new Date().toISOString(),
+          completedAt: null,
+        };
+
+        if (formData.taskType === "물품 구매") {
+          newTask.productName = formData.productName || "";
+          newTask.productCount = formData.productCount || "";
+        } else if (formData.taskType === "택배요청") {
+          newTask.recipient = formData.recipient || "";
+          newTask.recipientPhone = formData.recipientPhone || "";
+          newTask.recipientAddress = formData.recipientAddress || "";
+        }
+
+        set((state) => ({
+          tasks: [...state.tasks, newTask],
+        }));
+
+        return newTask;
       },
 
       logout: () => {
@@ -84,6 +116,7 @@ export const userStore = create(
       partialize: (state) => ({
         user: state.user,
         users: state.users,
+        tasks: state.tasks,
         isAuthenticated: state.isAuthenticated,
       }),
     }
