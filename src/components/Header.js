@@ -1,10 +1,10 @@
 import React from "react";
 import { IconButton } from "@radix-ui/themes";
 import { PersonIcon, ChevronDownIcon } from "@radix-ui/react-icons";
-import { useStore } from "../store/useStore";
+import { userStore } from "../store/userStore";
 
 const Header = ({ user, currentPage }) => {
-  const logout = useStore((state) => state.logout);
+  const logout = userStore((state) => state.logout);
   //TODO: add logout function
 
   const handleLogout = () => {
