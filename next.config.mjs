@@ -8,6 +8,5 @@ const nextConfig = {
     return config;
   },
   serverExternalPackages: ["@/data/*"],
-  ç,
 };
 export default nextConfig;
