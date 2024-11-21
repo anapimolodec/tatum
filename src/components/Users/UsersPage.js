@@ -1,18 +1,24 @@
+"use client";
+
 import React, { useState } from "react";
-import { userStore } from "../store/userStore";
-import { ROLES } from "../constants/types";
-import SearchBar from "../components/SearchBar";
-import { getNestedString, strings } from "../constants/strings";
-import SelectedCount from "../components/SelectedCount";
-import Filters from "../components/Filters";
-import { handleOptionChange } from "../constants/functions";
-import UserTable from "../components/UserTable";
-import EmptyCard from "../components/EmptyCard";
+import { userStore } from "../../lib/store/userStore";
+import { ROLES } from "../../lib/constants/types";
+import SearchBar from "../SearchBar";
+import { getNestedString, strings } from "../../lib/constants/strings";
+import SelectedCount from "../SelectedCount";
+import Filters from "../Filters";
+import { handleOptionChange } from "../../lib/constants/functions";
+import UserTable from "./UserTable";
+import EmptyCard from "../EmptyCard";
 
 const ALL = "ALL";
 
 const UsersPage = () => {
   const { user, users, isLoading, error } = userStore();
+  if (!user) {
+    return null;
+  }
+  console.log("users", users);
   const [selectedRoles, setSelectedRoles] = useState([ALL]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchField, setSearchField] = useState("userEmail");

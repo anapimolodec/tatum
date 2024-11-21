@@ -1,27 +1,29 @@
-import React, { useState } from "react";
+"use client";
+
+import { usePathname, useRouter } from "next/navigation";
 import {
   GridIcon,
   CalendarIcon,
   ChevronRightIcon,
   ChevronLeftIcon,
 } from "@radix-ui/react-icons";
-import { navStore } from "../store/navStore";
+import { useState } from "react";
 
 const Sidebar = () => {
+  const pathname = usePathname();
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(true);
-  const setPage = navStore((state) => state.setPage);
-  const currentPage = navStore((state) => state.currentPage);
 
   const menuItems = [
     {
+      path: "/dashboard/users",
+      label: "Users",
       icon: <GridIcon className="stroke-white stroke-1" />,
-      title: "Users",
-      page: "users",
     },
     {
+      path: "/dashboard/tasks",
+      label: "Tasks",
       icon: <CalendarIcon className="stroke-white stroke-1" />,
-      title: "Tasks",
-      page: "tasks",
     },
   ];
 
@@ -46,11 +48,11 @@ const Sidebar = () => {
         {menuItems.map((item, index) => (
           <div
             key={index}
-            onClick={() => setPage(item.page)}
+            onClick={() => router.push(item.path)}
             className={`
               flex items-center gap-2 text-white cursor-pointer px-2 h-10 rounded-md
               ${!isOpen ? "justify-center" : ""}
-              ${currentPage === item.page ? "bg-teal-800" : "hover:bg-teal-800"}
+              ${pathname === item.path ? "bg-teal-800" : "hover:bg-teal-800"}
             `}
           >
             <div className="flex items-center justify-center w-6 h-6">

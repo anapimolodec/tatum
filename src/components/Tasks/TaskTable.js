@@ -1,8 +1,10 @@
+"use client";
+
 import { Table } from "@radix-ui/themes";
-import { strings, getNestedString } from "../constants/strings";
-import { formatDate } from "../constants/functions";
+import { strings, getNestedString } from "../../lib/constants/strings";
+import { formatDate } from "../../lib/constants/functions";
 import { RowsIcon } from "@radix-ui/react-icons";
-import EmptyCard from "./EmptyCard";
+import EmptyCard from "../EmptyCard";
 
 const TaskTable = ({ visibleTasks }) => {
   if (visibleTasks.length === 0)

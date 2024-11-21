@@ -1,11 +1,16 @@
+"use client";
 import React from "react";
 import { IconButton, DropdownMenu } from "@radix-ui/themes";
 import { PersonIcon, ChevronDownIcon, ExitIcon } from "@radix-ui/react-icons";
-import { userStore } from "../store/userStore";
-import { strings } from "../constants/strings";
+import { userStore } from "@/lib/store/userStore";
+import { strings } from "@/lib/constants/strings";
 
-const Header = ({ user, currentPage }) => {
-  const logout = userStore((state) => state.logout);
+const Header = () => {
+  const { user, logout } = userStore((state) => state.logout);
+  if (!user) {
+    console.log("no user");
+    return null;
+  }
 
   const handleLogout = () => {
     logout();
@@ -13,9 +18,7 @@ const Header = ({ user, currentPage }) => {
 
   return (
     <nav className="flex justify-between items-center">
-      <h1 className="text-2xl font-bold mb-4">
-        {currentPage === "users" ? "User List" : "Task List"}
-      </h1>
+      <h1 className="text-2xl font-bold mb-4"></h1>
       <div className="flex gap-2 items-center text-blue-600 font-bold text-sm">
         <span>{user.userName}</span>
         <span>{user.userRole}</span>

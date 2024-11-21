@@ -1,5 +1,7 @@
+"use client";
+
 import React, { useState, useEffect } from "react";
-import { strings, getNestedString } from "../constants/strings";
+import { strings, getNestedString } from "../lib/constants/strings";
 import { Button } from "@radix-ui/themes";
 import {
   CheckIcon,
@@ -7,7 +9,7 @@ import {
   EyeClosedIcon,
   EnterIcon,
 } from "@radix-ui/react-icons";
-import { userStore } from "../store/userStore";
+import { userStore } from "../lib/store/userStore";
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -53,6 +55,7 @@ const LoginForm = () => {
     event.preventDefault();
     if (isValid) {
       const success = await login(formData.email, formData.password);
+
       if (success) {
         console.log("Login successful!");
         //TODO: add message?

@@ -1,31 +1,49 @@
+"use client";
+
 import React, { useState, useMemo, useEffect } from "react";
-import { userStore } from "../store/userStore";
-import { ROLES } from "../constants/types";
-import SearchBar from "../components/SearchBar";
-import { strings, getNestedString } from "../constants/strings";
-import SelectedCount from "../components/SelectedCount";
-import Filters from "../components/Filters";
-import { handleOptionChange } from "../constants/functions";
-import TaskTable from "../components/TaskTable";
+import { userStore } from "../../lib/store/userStore";
+import { ROLES } from "../../lib/constants/types";
+import SearchBar from "../SearchBar";
+import { strings, getNestedString } from "../../lib/constants/strings";
+import SelectedCount from "../SelectedCount";
+import Filters from "../Filters";
+import { handleOptionChange } from "../../lib/constants/functions";
+import TaskTable from "./TaskTable";
 import { Callout } from "@radix-ui/themes";
-import { InfoCircledIcon } from "@radix-ui/react-icons";
-import { useTaskStore } from "../store/taskStore";
+import {
+  InfoCircledIcon,
+  ExclamationTriangleIcon,
+} from "@radix-ui/react-icons";
+import { taskStore } from "../../lib/store/taskStore";
 
 const ALL = "ALL";
 
 const TasksPage = () => {
   const { user } = userStore();
-  const { tasks, isLoading, error, fetchTasks } = useTaskStore();
+  const { tasks, isLoading, error, fetchTasks } = taskStore();
   const [searchTerm, setSearchTerm] = useState("");
   const [searchField, setSearchField] = useState("taskName");
   const [selectedTypes, setSelectedTypes] = useState([ALL]);
   const [selectedStatuses, setSelectedStatuses] = useState([ALL]);
   const [showAlert, setShowAlert] = useState(false);
 
+  console.log("USER: ", user);
   useEffect(() => {
     if (user) {
-      fetchTasks();
+      console.log("tasks 1: ", tasks);
+      const loadTasks = async () => {
+        if (user) {
+          try {
+            await fetchTasks();
+          } catch (error) {
+            console.error("Error loading tasks:", error);
+          }
+        }
+      };
+
+      loadTasks();
     }
+    console.log("tasks 2: ", tasks);
     // eslint-disable-next-line
   }, [user]);
 
@@ -92,10 +110,20 @@ const TasksPage = () => {
     return filteredTasks;
   };
 
-  if (isLoading) return <p>{strings.loading}</p>;
-  if (error) return <p>{error}</p>;
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <p className="text-lg">Loading tasks...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return <div>{error.message}</div>;
+  }
 
   const visibleTasks = getVisibleTasks();
+  console.log("visible tasks", visibleTasks);
   const options = [
     { id: "taskName", name: "Task Name" },
     { id: "reporter", name: "Reporter" },

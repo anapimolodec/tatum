@@ -1,13 +1,14 @@
+"use client";
 import { Dialog, Button } from "@radix-ui/themes";
 import React, { useState } from "react";
 import CreateTaskForm from "./CreateTaskForm";
 import { CardStackPlusIcon } from "@radix-ui/react-icons";
-import { useTaskStore } from "../store/taskStore";
-import { getNestedString } from "../constants/strings";
+import { taskStore } from "../../lib/store/taskStore";
+import { getNestedString } from "../../lib/constants/strings";
 
 const CreateTaskDialog = React.memo(({ onTaskCreated }) => {
   let [open, setOpen] = useState(false);
-  const createTask = useTaskStore((state) => state.createTask);
+  const createTask = taskStore((state) => state.createTask);
 
   const handleSubmit = (formData) => {
     createTask(formData);

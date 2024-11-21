@@ -1,7 +1,9 @@
+"use client";
+
 import { Table } from "@radix-ui/themes";
-import { strings, getNestedString } from "../constants/strings";
-import { formatDate } from "../constants/functions";
-import EmptyCard from "./EmptyCard";
+import { strings, getNestedString } from "../../lib/constants/strings";
+import { formatDate } from "../../lib/constants/functions";
+import EmptyCard from "../EmptyCard";
 
 const UserTable = ({ visibleUsers }) => {
   if (visibleUsers.length === 0)
