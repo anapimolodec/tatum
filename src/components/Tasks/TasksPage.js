@@ -123,6 +123,7 @@ const TasksPage = () => {
               <span className="font-bold">
                 {getNestedString("tasks.success_title")}
               </span>
+              <br />
               <span>{getNestedString("tasks.success_message")}</span>
             </Callout.Text>
           </Callout.Root>
