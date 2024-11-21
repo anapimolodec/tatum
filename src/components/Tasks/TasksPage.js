@@ -82,7 +82,9 @@ const TasksPage = () => {
       );
     }
 
-    return filteredTasks;
+    return filteredTasks.sort(
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    );
   };
 
   if (isLoading) {
