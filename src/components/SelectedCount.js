@@ -1,4 +1,4 @@
-import { strings } from "../constants/strings";
+import { strings } from "../lib/constants/strings";
 
 const SelectedCount = ({ count }) => {
   return (

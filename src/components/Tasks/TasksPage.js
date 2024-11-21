@@ -1,33 +1,26 @@
-import React, { useState, useMemo, useEffect } from "react";
-import { userStore } from "../store/userStore";
-import { ROLES } from "../constants/types";
-import SearchBar from "../components/SearchBar";
-import { strings, getNestedString } from "../constants/strings";
-import SelectedCount from "../components/SelectedCount";
-import Filters from "../components/Filters";
-import { handleOptionChange } from "../constants/functions";
-import TaskTable from "../components/TaskTable";
+"use client";
+
+import React, { useState, useMemo } from "react";
+import { userStore } from "../../lib/store/userStore";
+import { ROLES } from "../../lib/constants/types";
+import SearchBar from "../SearchBar";
+import { getNestedString } from "../../lib/constants/strings";
+import SelectedCount from "../SelectedCount";
+import Filters from "../Filters";
+import { handleOptionChange } from "../../lib/constants/functions";
+import TaskTable from "./TaskTable";
 import { Callout } from "@radix-ui/themes";
 import { InfoCircledIcon } from "@radix-ui/react-icons";
-import { useTaskStore } from "../store/taskStore";
 
 const ALL = "ALL";
 
 const TasksPage = () => {
-  const { user } = userStore();
-  const { tasks, isLoading, error, fetchTasks } = useTaskStore();
+  const { user, tasks, isLoading, error } = userStore();
   const [searchTerm, setSearchTerm] = useState("");
   const [searchField, setSearchField] = useState("taskName");
   const [selectedTypes, setSelectedTypes] = useState([ALL]);
   const [selectedStatuses, setSelectedStatuses] = useState([ALL]);
   const [showAlert, setShowAlert] = useState(false);
-
-  useEffect(() => {
-    if (user) {
-      fetchTasks();
-    }
-    // eslint-disable-next-line
-  }, [user]);
 
   const handleTaskCreated = () => {
     setShowAlert(true);
@@ -89,13 +82,25 @@ const TasksPage = () => {
       );
     }
 
-    return filteredTasks;
+    return filteredTasks.sort(
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    );
   };
 
-  if (isLoading) return <p>{strings.loading}</p>;
-  if (error) return <p>{error}</p>;
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <p className="text-lg">Loading tasks...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return <div>{error.message}</div>;
+  }
 
   const visibleTasks = getVisibleTasks();
+
   const options = [
     { id: "taskName", name: "Task Name" },
     { id: "reporter", name: "Reporter" },
@@ -115,10 +120,10 @@ const TasksPage = () => {
               <InfoCircledIcon />
             </Callout.Icon>
             <Callout.Text>
-              <h3 className="font-bold">
+              <span className="font-bold">
                 {getNestedString("tasks.success_title")}
-              </h3>
-              <p>{getNestedString("tasks.success_message")}</p>
+              </span>
+              <span>{getNestedString("tasks.success_message")}</span>
             </Callout.Text>
           </Callout.Root>
         )}

@@ -1,18 +1,19 @@
+"use client";
 import React, { useMemo } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { Button, Select, TextField } from "@radix-ui/themes";
-import { userStore } from "../store/userStore";
-import { ROLES } from "../constants/types";
+import { userStore } from "../../lib/store/userStore";
+import { ROLES } from "../../lib/constants/types";
 import { CheckIcon } from "@radix-ui/react-icons";
 import {
   DATE_PATTERN,
   DIGIT_PATTERN,
   LETTERS_PATTERN,
   PHONE_PATTERN,
-} from "../constants/types";
-import { strings, getNestedString } from "../constants/strings";
+} from "../../lib/constants/types";
+import { strings, getNestedString } from "../../lib/constants/strings";
 
-const TASK_TYPES = ["물품 구매", "택배요청"];
+const TASK_TYPES = ["물품구매", "택배요청"];
 
 const CreateTaskForm = ({ onSubmit, onCancel }) => {
   const { user, users } = userStore();
@@ -281,7 +282,6 @@ const CreateTaskForm = ({ onSubmit, onCancel }) => {
                   containsLettersAndNumbers: (value) => {
                     const hasLetters = LETTERS_PATTERN.test(value);
                     const hasNumbers = DIGIT_PATTERN.test(value);
-                    console.log(hasLetters, hasNumbers);
                     return (
                       (hasLetters && hasNumbers) ||
                       getNestedString("errors.address")

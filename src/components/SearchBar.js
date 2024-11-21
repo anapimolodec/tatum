@@ -1,7 +1,8 @@
+"use client";
 import { TextField, Select } from "@radix-ui/themes";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
-import CreateTaskDialog from "./CreateTaskDialog";
-import { strings } from "../constants/strings";
+import CreateTaskDialog from "./Tasks/CreateTaskDialog";
+import { strings } from "../lib/constants/strings";
 
 const SearchBar = ({
   handleSearch,
