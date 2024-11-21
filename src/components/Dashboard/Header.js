@@ -20,9 +20,9 @@ const Header = () => {
   return (
     <nav className="flex justify-between items-center">
       <h1 className="text-2xl font-bold mb-4">
-        {pathname === "/dashboard/users"
-          ? strings.user_list
-          : strings.task_list}
+        {pathname === "/dashboard/tasks"
+          ? strings.task_list
+          : strings.user_list}
       </h1>
       <div className="flex gap-2 items-center text-blue-600 font-bold text-sm">
         <span>{user.userName}</span>
