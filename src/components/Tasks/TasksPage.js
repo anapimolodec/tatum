@@ -22,26 +22,6 @@ const TasksPage = () => {
   const [selectedStatuses, setSelectedStatuses] = useState([ALL]);
   const [showAlert, setShowAlert] = useState(false);
 
-  // useEffect(() => {
-  //   console.log("USERing: ", user);
-  //   if (user) {
-  //     console.log("tasks 1: ", tasks);
-  //     const loadTasks = async () => {
-  //       if (user) {
-  //         try {
-  //           await fetchTasks();
-  //         } catch (error) {
-  //           console.error("Error loading tasks:", error);
-  //         }
-  //       }
-  //     };
-
-  //     loadTasks();
-  //   }
-  //   console.log("tasks 2: ", tasks);
-  //   // eslint-disable-next-line
-  // }, [user]);
-
   const handleTaskCreated = () => {
     setShowAlert(true);
     setTimeout(() => {
