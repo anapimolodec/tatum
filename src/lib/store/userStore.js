@@ -68,7 +68,7 @@ export const userStore = create(
           completedAt: null,
         };
 
-        if (formData.taskType === "물품 구매") {
+        if (formData.taskType === "물품구매") {
           newTask.productName = formData.productName || "";
           newTask.productCount = formData.productCount || "";
         } else if (formData.taskType === "택배요청") {

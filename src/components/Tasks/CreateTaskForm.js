@@ -70,7 +70,7 @@ const CreateTaskForm = ({ onSubmit, onCancel }) => {
       createdAt: now,
     };
 
-    if (data.taskType === "물품 구매") {
+    if (data.taskType === "물품구매") {
       relevantData = {
         ...relevantData,
         productName: data.productName,
@@ -174,7 +174,7 @@ const CreateTaskForm = ({ onSubmit, onCancel }) => {
                 onValueChange={(value) => {
                   field.onChange(value);
 
-                  if (value === "물품 구매") {
+                  if (value === "물품구매") {
                     setValue("recipient", "");
                     setValue("recipientPhone", "");
                     setValue("recipientAddress", "");
