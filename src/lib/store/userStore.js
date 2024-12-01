@@ -20,7 +20,7 @@ export const userStore = create(
               "Content-Type": "application/json",
             },
             body: JSON.stringify({ email, password }),
-            credentials: "include",
+            // credentials: "include", -> cross origin or cookies
           });
 
           const data = await response.json();

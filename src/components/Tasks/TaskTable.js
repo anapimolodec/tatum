@@ -1,5 +1,3 @@
-"use client";
-
 import { Table } from "@radix-ui/themes";
 import { strings, getNestedString } from "../../lib/constants/strings";
 import { formatDate } from "../../lib/constants/functions";

@@ -1,4 +1,3 @@
-"use client";
 import { TextField, Select } from "@radix-ui/themes";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import CreateTaskDialog from "./Tasks/CreateTaskDialog";

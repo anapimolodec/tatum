@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import { IconButton, DropdownMenu } from "@radix-ui/themes";
 import { PersonIcon, ChevronDownIcon, ExitIcon } from "@radix-ui/react-icons";

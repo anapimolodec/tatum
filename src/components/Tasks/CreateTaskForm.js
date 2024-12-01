@@ -1,4 +1,3 @@
-"use client";
 import React, { useMemo } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { Button, Select, TextField } from "@radix-ui/themes";

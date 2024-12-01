@@ -1,4 +1,3 @@
-"use client";
 import { Dialog, Button } from "@radix-ui/themes";
 import React, { useState } from "react";
 import CreateTaskForm from "./CreateTaskForm";

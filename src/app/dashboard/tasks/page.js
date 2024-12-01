@@ -1,5 +1,3 @@
-"use client";
-
 import TasksPage from "@/components/Tasks/TasksPage";
 
 export default function Tasks() {
