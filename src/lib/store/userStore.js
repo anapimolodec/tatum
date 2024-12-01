@@ -14,13 +14,12 @@ export const userStore = create(
       login: async (email, password) => {
         set({ isLoading: true, error: null });
         try {
-          const response = await fetch("/api/auth/login", {
+          const response = await fetch("/api/login", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({ email, password }),
-            // credentials: "include", -> cross origin or cookies
           });
 
           const data = await response.json();
@@ -29,20 +28,17 @@ export const userStore = create(
             throw new Error(data.error || "Login failed");
           }
 
-          const newState = {
+          set({
             user: data.user,
-            users: data.users || [],
-            tasks: data.tasks || [],
             isAuthenticated: true,
             error: null,
             isLoading: false,
-          };
-
-          set(newState);
+          });
+          await get().fetchData();
 
           return true;
         } catch (error) {
-          console.error("Login error:", error);
+          console.log("Login error:", error);
           set({
             user: null,
             isAuthenticated: false,
@@ -50,6 +46,40 @@ export const userStore = create(
             isLoading: false,
           });
           return false;
+        }
+      },
+
+      fetchData: async () => {
+        set({ isLoading: true, error: null });
+        try {
+          const { user } = get();
+          if (!user) {
+            throw new Error("No user logged in");
+          }
+          const response = await fetch("/api/data", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              userRole: user.userRole,
+              userName: user.userName,
+            }),
+          });
+
+          const data = await response.json();
+
+          if (!response.ok) {
+            throw new Error(data.error || "Failed to fetch data");
+          }
+          set({
+            users: data.users || [],
+            tasks: data.tasks || [],
+            isLoading: false,
+          });
+        } catch (error) {
+          console.log("Fetch error:", error);
+          set({ error: error.message, isLoading: false });
         }
       },
 
@@ -104,7 +134,7 @@ export const userStore = create(
       clearError: () => set({ error: null }),
     }),
     {
-      name: "auth-storage",
+      name: "test-task-storage",
       partialize: (state) => {
         const persistedState = {
           user: state.user,

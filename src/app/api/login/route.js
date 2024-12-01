@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import users from "@/data/user_list.json";
-import tasks from "@/data/task_list.json";
 
 export async function POST(request) {
   try {
@@ -24,8 +23,6 @@ export async function POST(request) {
 
       return NextResponse.json({
         user: userSession,
-        users: users.map(({ password, ...user }) => user),
-        tasks: tasks,
       });
     }
 
@@ -34,7 +31,7 @@ export async function POST(request) {
       { status: 401 }
     );
   } catch (error) {
-    console.error("Login error:", error);
+    console.log("Login error:", error);
     return NextResponse.json(
       { error: "An error occurred during login" },
       { status: 500 }

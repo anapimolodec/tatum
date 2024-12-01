@@ -46,22 +46,7 @@ const TasksPage = () => {
   };
 
   const getVisibleTasks = () => {
-    let filteredTasks;
-
-    switch (user.userRole) {
-      case ROLES.ADMIN:
-      case ROLES.PRIME:
-        filteredTasks = tasks;
-        break;
-      case ROLES.REGULAR:
-        filteredTasks = tasks.filter((task) => task.reporter === user.userName);
-        break;
-      case ROLES.VIEWER:
-        filteredTasks = tasks.filter((task) => task.assignee === user.userName);
-        break;
-      default:
-        return [];
-    }
+    let filteredTasks = tasks;
 
     if (!selectedTypes.includes(ALL)) {
       filteredTasks = filteredTasks.filter((task) =>

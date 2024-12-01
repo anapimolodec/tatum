@@ -44,18 +44,7 @@ const UsersPage = () => {
   }
 
   const getVisibleUsers = () => {
-    let filteredUsers;
-    switch (user.userRole) {
-      case ROLES.ADMIN:
-      case ROLES.PRIME:
-        filteredUsers = users;
-        break;
-      case ROLES.REGULAR:
-        filteredUsers = users.filter((u) => u.userEmail === user.userEmail);
-        break;
-      default:
-        return [];
-    }
+    let filteredUsers = users;
 
     if (!selectedRoles.includes(ALL)) {
       filteredUsers = filteredUsers.filter((u) =>
